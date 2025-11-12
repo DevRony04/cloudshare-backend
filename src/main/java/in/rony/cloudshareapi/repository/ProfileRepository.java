@@ -1,4 +1,4 @@
-package in.rony.cloudshareapi.Repository;
+package in.rony.cloudshareapi.repository;
 
 import in.rony.cloudshareapi.document.ProfileDocument;
 import org.springframework.data.mongodb.repository.MongoRepository;

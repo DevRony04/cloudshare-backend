@@ -1,10 +1,11 @@
 package in.rony.cloudshareapi.service;
 
-import com.mongodb.DuplicateKeyException;
-import in.rony.cloudshareapi.Repository.ProfileRepository;
+import in.rony.cloudshareapi.repository.ProfileRepository;
 import in.rony.cloudshareapi.document.ProfileDocument;
 import in.rony.cloudshareapi.dto.ProfileDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -88,5 +89,12 @@ public class ProfileService {
         if (existingProfile != null) {
             profileRepository.delete(existingProfile);
         }
+    }
+   public ProfileDocument getCurrentProfile(){
+       if (SecurityContextHolder.getContext().getAuthentication() == null) {
+           throw new UsernameNotFoundException("User not authenticated");
+       }
+       String clerkId = SecurityContextHolder.getContext().getAuthentication().getName();
+       return profileRepository.findByClerkId(clerkId);
     }
 }
